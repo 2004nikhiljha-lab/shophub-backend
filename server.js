@@ -14,30 +14,34 @@ const paymentRoutes = require("./routes/paymentRoutes");
 // Middleware
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
-// Load environment variables
+// Load env vars
 dotenv.config();
 
-// Connect to MongoDB
+// Connect DB
 connectDB();
 
-// Initialize Express
 const app = express();
 
-// Enable CORS and allow Authorization header for token-based auth
+// 🔥 TRUST PROXY (important for Render / HTTPS)
+app.set("trust proxy", 1);
+
+// 🔥 CORS CONFIG (Frontend ↔ Backend)
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://shophub.vercel.app", // ← change after frontend deploy
+    ],
+    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    exposedHeaders: ["Authorization"],
   })
 );
 
-// Body parser middleware
+// Body parser
 app.use(express.json());
-
-
-
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/payment", paymentRoutes);
@@ -47,17 +51,17 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
-// Test route
+// Health check
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("ShopHub API is running 🚀");
 });
 
-// Error handling middleware
+// Error handlers
 app.use(notFound);
 app.use(errorHandler);
 
-// Start server
+// Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running in ${process.env.NODE_ENV || "development"} mode`);
 });
