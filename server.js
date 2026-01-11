@@ -29,11 +29,7 @@ app.set("trust proxy", 1);
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "https://shop-hub-seven-sable.vercel.app", // ✅ Your actual frontend URL
-      "https://shophub.vercel.app",
+      "https://shop-hub-seven-sable.vercel.app", 
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
