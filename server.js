@@ -31,7 +31,9 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://shophub.vercel.app", // ← change after frontend deploy
+      "http://localhost:5174",
+      "https://shop-hub-seven-sable.vercel.app", // ✅ Your actual frontend URL
+      "https://shophub.vercel.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -63,5 +65,5 @@ app.use(errorHandler);
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || "development"} mode`);
+  console.log(`Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
 });
